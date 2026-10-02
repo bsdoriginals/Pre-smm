@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pre-Smm – Social media growth services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F5F3FF; --surface:#FFFFFF; --ink:#1B1340; --muted:#5E5883; --line:#DDD8F5;
+  --brand:#5B3DF5; --brand-ink:#FFFFFF; --hot:#FF4F6D; --ok:#12A774;
+  --display:'Bricolage Grotesque',system-ui,sans-serif; --body:'Figtree',system-ui,sans-serif;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg:#120E2B;--surface:#1D1740;--ink:#F1EEFF;--muted:#A9A2D3;--line:#322A63;--brand:#8A73FF;--brand-ink:#120E2B;--hot:#FF7088;--ok:#3ED8A0}
+}
+:root[data-theme="dark"]{--bg:#120E2B;--surface:#1D1740;--ink:#F1EEFF;--muted:#A9A2D3;--line:#322A63;--brand:#8A73FF;--brand-ink:#120E2B;--hot:#FF7088;--ok:#3ED8A0}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--hot);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{font-family:var(--display);font-weight:800;font-size:22px;text-decoration:none;letter-spacing:-.02em}
+.logo b{color:var(--hot);font-weight:800}
+.nav a.link{font-size:15px;text-decoration:none;color:var(--muted);margin-left:20px}
+.nav a.link:hover{color:var(--ink)}
+@media(max-width:560px){.nav a.link.hide{display:none}}
+
+/* hero */
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;padding:48px 0 56px;align-items:start}
+@media(max-width:860px){.hero{grid-template-columns:1fr;padding-top:32px}}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,64px);line-height:1.02;letter-spacing:-.035em;margin:0 0 18px}
+.lead{color:var(--muted);font-size:18px;max-width:46ch;margin:0 0 22px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.chips li{background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:500}
+
+/* order card */
+.order{background:var(--surface);border:2px solid var(--ink);border-radius:20px;padding:22px;box-shadow:8px 8px 0 var(--brand)}
+.order h2{font-family:var(--display);font-size:22px;margin:0 0 16px;letter-spacing:-.02em}
+label{display:block;font-weight:600;font-size:14px;margin:14px 0 6px}
+select,input[type=text],input[type=number]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px}
+select:focus,input:focus{border-color:var(--brand)}
+.plats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.plats button{font:inherit;font-weight:600;font-size:14px;padding:10px 4px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
+.plats button[aria-pressed=true]{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.hint{font-size:13px;color:var(--muted);margin:6px 0 0}
+.total{display:flex;justify-content:space-between;align-items:baseline;margin:20px 0 14px;padding-top:16px;border-top:2px dashed var(--line)}
+.total span{color:var(--muted);font-weight:500}
+.total strong{font-family:var(--display);font-size:36px;letter-spacing:-.03em}
+.btn{display:block;width:100%;text-align:center;font:inherit;font-weight:700;font-size:17px;border:0;border-radius:14px;padding:15px;cursor:pointer;background:var(--hot);color:#fff;text-decoration:none}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.alt{background:var(--brand);color:var(--brand-ink)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.err{color:var(--hot);font-size:14px;margin:8px 0 0;min-height:1.2em}
+
+/* pay panel */
+.pay{display:none;margin-top:18px;border-top:2px dashed var(--line);padding-top:18px}
+.pay.on{display:block}
+.pay h3{font-family:var(--display);margin:0 0 4px;font-size:19px}
+.qrbox{display:flex;gap:16px;align-items:center;margin:14px 0;flex-wrap:wrap}
+#qr{background:#fff;padding:10px;border-radius:12px;border:1px solid var(--line);width:164px;height:164px;display:grid;place-items:center}
+.upi{font-weight:600;word-break:break-all}
+.steps-mini{margin:0 0 6px;padding-left:20px;color:var(--muted);font-size:14px}
+.done{display:none;background:color-mix(in srgb,var(--ok) 14%,transparent);border:1.5px solid var(--ok);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15px}
+.done.on{display:block}
+pre.sum{white-space:pre-wrap;font-family:var(--body);font-size:14px;margin:8px 0 0}
+
+/* sections */
+section{padding:56px 0}
+h2.sec{font-family:var(--display);font-size:clamp(28px,4vw,40px);letter-spacing:-.03em;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 26px;max-width:56ch}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.tabs button{font:inherit;font-weight:600;padding:8px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.tabs button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tablewrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:16px}
+table{border-collapse:collapse;width:100%;min-width:480px}
+th,td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--line)}
+th{font-size:14px;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+td.pr{font-weight:700;white-space:nowrap}
+.pick{font:inherit;font-weight:600;font-size:14px;background:none;border:1.5px solid var(--brand);color:var(--brand);border-radius:10px;padding:6px 12px;cursor:pointer}
+
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:0;counter-reset:s;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface)}
+@media(max-width:760px){.how{grid-template-columns:1fr}}
+.how div{padding:24px;border-right:1px solid var(--line)}
+.how div:last-child{border-right:0}
+@media(max-width:760px){.how div{border-right:0;border-bottom:1px solid var(--line)}.how div:last-child{border-bottom:0}}
+.how div::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--hot);color:#fff;font-weight:800;font-family:var(--display);margin-bottom:12px}
+.how h3{margin:0 0 4px;font-family:var(--display);font-size:19px}
+.how p{margin:0;color:var(--muted);font-size:15px}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:10px}
+summary{cursor:pointer;font-weight:600}
+details p{color:var(--muted);margin:10px 0 0}
+footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--muted);font-size:14px}
+.foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap nav">
+  <a class="logo" href="#top">Pre<b>-</b>Smm</a>
+  <nav><a class="link hide" href="#prices">Prices</a><a class="link hide" href="#how">How it works</a><a class="link" href="#faq">FAQ</a></nav>
+</div></header>
+
+<main id="top" class="wrap">
+  <div class="hero">
+    <div>
+      <h1>Grow your social profiles, paid by UPI.</h1>
+      <p class="lead">Pick a platform, choose a service and quantity, and see the exact price before you pay. No sign-up, no wallet top-up.</p>
+      <ul class="chips"><li>Instagram</li><li>YouTube</li><li>Facebook</li><li>Telegram</li><li>Pay with any UPI app</li></ul>
+    </div>
+
+    <div class="order" id="order">
+      <h2>Place an order</h2>
+      <div class="plats" id="plats" role="group" aria-label="Platform"></div>
+      <label for="svc">Service</label>
+      <select id="svc"></select>
+      <label for="link">Link or username</label>
+      <input type="text" id="link" placeholder="https://instagram.com/yourname" autocomplete="off" inputmode="url">
+      <label for="qty">Quantity</label>
+      <input type="number" id="qty" inputmode="numeric">
+      <p class="hint" id="range"></p>
+      <div class="total"><span>Total</span><strong id="total">₹0</strong></div>
+      <button class="btn" id="payBtn">Pay with UPI</button>
+      <p class="err" id="err" role="alert"></p>
+
+      <div class="pay" id="pay">
+        <h3>Pay <span id="payAmt"></span></h3>
+        <p class="hint">Scan the code, or tap the button on your phone to open your UPI app.</p>
+        <div class="qrbox">
+          <div id="qr"></div>
+          <div>
+            <div class="hint">Pay to UPI ID</div>
+            <div class="upi" id="upiId"></div>
+            <a class="btn alt" id="upiLink" href="#" style="margin-top:10px;padding:11px 18px;display:inline-block;width:auto">Open UPI app</a>
+          </div>
+        </div>
+        <label for="utr">After paying, enter the UTR / transaction ID</label>
+        <input type="text" id="utr" placeholder="12-digit UTR" inputmode="numeric" autocomplete="off">
+        <button class="btn alt" id="confirm" style="margin-top:12px">I have paid</button>
+        <p class="err" id="err2" role="alert"></p>
+        <div class="done" id="done">
+          <strong>Order details ready.</strong> Send this to us to start your order:
+          <pre class="sum" id="sum"></pre>
+          <button class="btn ghost" id="copy" style="margin-top:10px">Copy order details</button>
+          <a class="btn alt" id="wa" href="#" style="margin-top:8px;display:none">Send on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section id="prices">
+    <h2 class="sec">Prices</h2>
+    <p class="sub">Rates per 1,000. Choose a service to load it into the order form.</p>
+    <div class="tabs" id="tabs" role="group" aria-label="Platform filter"></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Service</th><th>Min – Max</th><th>Per 1,000</th><th></th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table></div>
+  </section>
+
+  <section id="how">
+    <h2 class="sec">How it works</h2>
+    <p class="sub">Three steps, usually under two minutes.</p>
+    <div class="how">
+      <div><h3>Choose</h3><p>Select the platform, service and quantity. The price updates as you type.</p></div>
+      <div><h3>Pay</h3><p>Pay the exact amount through any UPI app and keep the transaction ID.</p></div>
+      <div><h3>Confirm</h3><p>Enter the transaction ID and send us the order details. We start after verifying payment.</p></div>
+    </div>
+  </section>
+
+  <section id="faq">
+    <h2 class="sec">Questions</h2>
+    <p class="sub">&nbsp;</p>
+    <details><summary>Do you need my password?</summary><p>No. We only need a public link or username. Never share your password with anyone.</p></details>
+    <details><summary>Should my account be public?</summary><p>Yes. Private accounts can't receive the service, so switch to public until the order completes.</p></details>
+    <details><summary>How long does an order take?</summary><p>Most orders start soon after payment is verified. Larger quantities take longer to deliver.</p></details>
+    <details><summary>Can the numbers drop later?</summary><p>Some drop is normal on social platforms. Platforms can also remove accounts or activity, so results are not guaranteed.</p></details>
+    <details><summary>I paid but nothing started.</summary><p>Send us your transaction ID and order link using the contact below and we'll check it.</p></details>
+  </section>
+</main>
+
+<footer><div class="wrap foot">
+  <div><strong>Pre-Smm</strong><br>Not affiliated with Instagram, YouTube, Facebook or Telegram.</div>
+  <div>Payments by UPI only.<br><span id="contact"></span></div>
+</div></footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+/* ---- Edit these ---- */
+const CONFIG = {
+  brand: "Pre-Smm",
+  upi: "dilpreetx@yesfam",
+  whatsapp: "",            // e.g. "919876543210" to enable the WhatsApp button
+  contactText: ""          // e.g. "Support: @yourtelegram"
+};
+const SERVICES = {
+  Instagram:[
+    {n:"Followers",   p:9,   min:1000, max:50000, def:10000, ph:"https://instagram.com/yourname"},
+    {n:"Post likes",  p:35,  min:50,  max:100000, ph:"https://instagram.com/p/..."},
+    {n:"Reel views",  p:8,   min:500, max:1000000,ph:"https://instagram.com/reel/..."}
+  ],
+  YouTube:[
+    {n:"Video views", p:120, min:500, max:500000, ph:"https://youtube.com/watch?v=..."},
+    {n:"Subscribers", p:650, min:50,  max:20000,  ph:"https://youtube.com/@channel"},
+    {n:"Video likes", p:60,  min:50,  max:50000,  ph:"https://youtube.com/watch?v=..."}
+  ],
+  Facebook:[
+    {n:"Page followers",p:110,min:100,max:50000, ph:"https://facebook.com/yourpage"},
+    {n:"Post likes",    p:45, min:50, max:50000, ph:"https://facebook.com/.../posts/..."}
+  ],
+  Telegram:[
+    {n:"Channel members",p:70,min:100,max:50000, ph:"https://t.me/yourchannel"},
+    {n:"Post views",     p:5, min:500,max:1000000,ph:"https://t.me/yourchannel/123"}
+  ]
+};
+const $=id=>document.getElementById(id);
+const inr=n=>"₹"+n.toLocaleString("en-IN",{maximumFractionDigits:2,minimumFractionDigits:n%1?2:0});
+let plat="Instagram", idx=0, amount=0;
+
+function renderPlats(){
+  $("plats").innerHTML="";
+  Object.keys(SERVICES).forEach(p=>{
+    const b=document.createElement("button");b.textContent=p;b.setAttribute("aria-pressed",p===plat);
+    b.onclick=()=>{plat=p;idx=0;renderAll()};$("plats").appendChild(b);
+  });
+  $("tabs").innerHTML="";
+  Object.keys(SERVICES).forEach(p=>{
+    const b=document.createElement("button");b.textContent=p;b.setAttribute("aria-pressed",p===plat);
+    b.onclick=()=>{plat=p;idx=0;renderAll()};$("tabs").appendChild(b);
+  });
+}
+function renderSvc(){
+  $("svc").innerHTML=SERVICES[plat].map((s,i)=>`<option value="${i}">${s.n} – ${inr(s.p)}/1000</option>`).join("");
+  $("svc").value=idx;
+  const s=SERVICES[plat][idx];
+  $("link").placeholder=s.ph;
+  $("qty").min=s.min;$("qty").max=s.max;
+  if(!$("qty").value||+$("qty").value<s.min||+$("qty").value>s.max)$("qty").value=s.def||s.min*(s.min<500?5:2);
+  $("range").textContent=`Minimum ${s.min.toLocaleString("en-IN")}, maximum ${s.max.toLocaleString("en-IN")}`;
+}
+function renderRows(){
+  $("rows").innerHTML="";
+  SERVICES[plat].forEach((s,i)=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td>${s.n}</td><td>${s.min.toLocaleString("en-IN")} – ${s.max.toLocaleString("en-IN")}</td><td class="pr">${inr(s.p)}</td><td><button class="pick">Order</button></td>`;
+    tr.querySelector("button").onclick=()=>{idx=i;$("qty").value="";renderSvc();calc();$("order").scrollIntoView({behavior:"smooth",block:"center"})};
+    $("rows").appendChild(tr);
+  });
+}
+function calc(){
+  const s=SERVICES[plat][idx],q=+$("qty").value||0;
+  amount=Math.round((q/1000)*s.p*100)/100;
+  $("total").textContent=inr(amount);
+  closePay();
+}
+function renderAll(){renderPlats();renderSvc();renderRows();calc()}
+$("svc").onchange=()=>{idx=+$("svc").value;$("qty").value="";renderSvc();calc()};
+$("qty").oninput=calc;
+$("link").oninput=()=>{$("err").textContent=""};
+
+function closePay(){$("pay").classList.remove("on");$("done").classList.remove("on")}
+function upiUrl(){
+  const note=`${CONFIG.brand} ${plat} ${SERVICES[plat][idx].n}`.slice(0,50);
+  return `upi://pay?pa=${encodeURIComponent(CONFIG.upi)}&pn=${encodeURIComponent(CONFIG.brand)}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent(note)}`;
+}
+$("payBtn").onclick=()=>{
+  const s=SERVICES[plat][idx],q=+$("qty").value,l=$("link").value.trim();
+  if(!l){$("err").textContent="Enter your link or username.";$("link").focus();return}
+  if(!(q>=s.min&&q<=s.max)){$("err").textContent=`Quantity must be between ${s.min} and ${s.max}.`;$("qty").focus();return}
+  $("err").textContent="";
+  $("payAmt").textContent=inr(amount);
+  $("upiId").textContent=CONFIG.upi;
+  const url=upiUrl();
+  $("upiLink").href=url;
+  $("qr").innerHTML="";
+  try{new QRCode($("qr"),{text:url,width:144,height:144,correctLevel:QRCode.CorrectLevel.M})}
+  catch(e){$("qr").textContent="QR unavailable"}
+  $("pay").classList.add("on");
+  $("pay").scrollIntoView({behavior:"smooth",block:"nearest"});
+};
+$("confirm").onclick=()=>{
+  const utr=$("utr").value.trim();
+  if(!/^\d{12}$/.test(utr)){$("err2").textContent="Enter the 12-digit UTR from your UPI app.";return}
+  $("err2").textContent="";
+  const s=SERVICES[plat][idx];
+  const text=`${CONFIG.brand} order\nPlatform: ${plat}\nService: ${s.n}\nQuantity: ${(+$("qty").value).toLocaleString("en-IN")}\nLink: ${$("link").value.trim()}\nAmount paid: ${inr(amount)}\nUTR: ${utr}`;
+  $("sum").textContent=text;
+  $("done").classList.add("on");
+  if(CONFIG.whatsapp){$("wa").style.display="block";$("wa").href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`}
+  $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(text);$("copy").textContent="Copied"}catch(e){$("copy").textContent="Select and copy the text above"}};
+};
+$("contact").textContent=CONFIG.contactText;
+renderAll();
+</script>
+</body>
+</html>
