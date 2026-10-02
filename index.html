@@ -131,22 +131,18 @@ footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--muted);f
       <p class="err" id="err" role="alert"></p>
 
       <div class="pay" id="pay">
-        <h3>Pay <span id="payAmt"></span></h3>
-        <p class="hint">Scan the code, or tap the button on your phone to open your UPI app.</p>
-        <div class="qrbox">
+        <h3>Opening your UPI app…</h3>
+        <p class="hint" id="payHint">Pay <strong id="payAmt"></strong> to complete the order.</p>
+        <div class="qrbox" id="qrbox" style="display:none">
           <div id="qr"></div>
           <div>
-            <div class="hint">Pay to UPI ID</div>
+            <div class="hint">On a computer? Scan with any UPI app, or pay to</div>
             <div class="upi" id="upiId"></div>
-            <a class="btn alt" id="upiLink" href="#" style="margin-top:10px;padding:11px 18px;display:inline-block;width:auto">Open UPI app</a>
           </div>
         </div>
-        <label for="utr">After paying, enter the UTR / transaction ID</label>
-        <input type="text" id="utr" placeholder="12-digit UTR" inputmode="numeric" autocomplete="off">
-        <button class="btn alt" id="confirm" style="margin-top:12px">I have paid</button>
-        <p class="err" id="err2" role="alert"></p>
-        <div class="done" id="done">
-          <strong>Order details ready.</strong> Send this to us to start your order:
+        <a class="btn alt" id="upiLink" href="#" style="margin-top:6px">Open UPI app again</a>
+        <div class="done on" id="done" style="margin-top:14px">
+          <strong>Your order details</strong> – send these to us after paying:
           <pre class="sum" id="sum"></pre>
           <button class="btn ghost" id="copy" style="margin-top:10px">Copy order details</button>
           <a class="btn alt" id="wa" href="#" style="margin-top:8px;display:none">Send on WhatsApp</a>
@@ -170,8 +166,8 @@ footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--muted);f
     <p class="sub">Three steps, usually under two minutes.</p>
     <div class="how">
       <div><h3>Choose</h3><p>Select the platform, service and quantity. The price updates as you type.</p></div>
-      <div><h3>Pay</h3><p>Pay the exact amount through any UPI app and keep the transaction ID.</p></div>
-      <div><h3>Confirm</h3><p>Enter the transaction ID and send us the order details. We start after verifying payment.</p></div>
+      <div><h3>Pay</h3><p>Tap Pay with UPI. Your UPI app opens with the exact amount filled in.</p></div>
+      <div><h3>Send details</h3><p>Send us your order details. We start as soon as we see your payment.</p></div>
     </div>
   </section>
 
@@ -182,7 +178,7 @@ footer{border-top:1px solid var(--line);padding:30px 0 40px;color:var(--muted);f
     <details><summary>Should my account be public?</summary><p>Yes. Private accounts can't receive the service, so switch to public until the order completes.</p></details>
     <details><summary>How long does an order take?</summary><p>Most orders start soon after payment is verified. Larger quantities take longer to deliver.</p></details>
     <details><summary>Can the numbers drop later?</summary><p>Some drop is normal on social platforms. Platforms can also remove accounts or activity, so results are not guaranteed.</p></details>
-    <details><summary>I paid but nothing started.</summary><p>Send us your transaction ID and order link using the contact below and we'll check it.</p></details>
+    <details><summary>I paid but nothing started.</summary><p>Send us your order ID and payment screenshot using the contact below and we'll check it.</p></details>
   </section>
 </main>
 
@@ -265,9 +261,10 @@ $("svc").onchange=()=>{idx=+$("svc").value;$("qty").value="";renderSvc();calc()}
 $("qty").oninput=calc;
 $("link").oninput=()=>{$("err").textContent=""};
 
-function closePay(){$("pay").classList.remove("on");$("done").classList.remove("on")}
+function closePay(){$("pay").classList.remove("on")}
+let orderId="";
 function upiUrl(){
-  const note=`${CONFIG.brand} ${plat} ${SERVICES[plat][idx].n}`.slice(0,50);
+  const note=`${CONFIG.brand} ${orderId}`;
   return `upi://pay?pa=${encodeURIComponent(CONFIG.upi)}&pn=${encodeURIComponent(CONFIG.brand)}&am=${amount.toFixed(2)}&cu=INR&tn=${encodeURIComponent(note)}`;
 }
 $("payBtn").onclick=()=>{
@@ -275,26 +272,22 @@ $("payBtn").onclick=()=>{
   if(!l){$("err").textContent="Enter your link or username.";$("link").focus();return}
   if(!(q>=s.min&&q<=s.max)){$("err").textContent=`Quantity must be between ${s.min} and ${s.max}.`;$("qty").focus();return}
   $("err").textContent="";
+  orderId="PS"+Date.now().toString(36).toUpperCase().slice(-6);
+  const url=upiUrl();
   $("payAmt").textContent=inr(amount);
   $("upiId").textContent=CONFIG.upi;
-  const url=upiUrl();
   $("upiLink").href=url;
-  $("qr").innerHTML="";
-  try{new QRCode($("qr"),{text:url,width:144,height:144,correctLevel:QRCode.CorrectLevel.M})}
-  catch(e){$("qr").textContent="QR unavailable"}
+  const text=`${CONFIG.brand} order ${orderId}\nPlatform: ${plat}\nService: ${s.n}\nQuantity: ${q.toLocaleString("en-IN")}\nLink: ${l}\nAmount: ${inr(amount)}`;
+  $("sum").textContent=text;
+  if(CONFIG.whatsapp){$("wa").style.display="block";$("wa").href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`}
+  $("copy").textContent="Copy order details";
+  $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(text);$("copy").textContent="Copied"}catch(e){$("copy").textContent="Select and copy the text above"}};
+  const mobile=/Android|iPhone|iPad/i.test(navigator.userAgent);
+  $("qrbox").style.display=mobile?"none":"flex";
+  if(!mobile){$("qr").innerHTML="";try{new QRCode($("qr"),{text:url,width:144,height:144,correctLevel:QRCode.CorrectLevel.M})}catch(e){$("qr").textContent="QR unavailable"}}
   $("pay").classList.add("on");
   $("pay").scrollIntoView({behavior:"smooth",block:"nearest"});
-};
-$("confirm").onclick=()=>{
-  const utr=$("utr").value.trim();
-  if(!/^\d{12}$/.test(utr)){$("err2").textContent="Enter the 12-digit UTR from your UPI app.";return}
-  $("err2").textContent="";
-  const s=SERVICES[plat][idx];
-  const text=`${CONFIG.brand} order\nPlatform: ${plat}\nService: ${s.n}\nQuantity: ${(+$("qty").value).toLocaleString("en-IN")}\nLink: ${$("link").value.trim()}\nAmount paid: ${inr(amount)}\nUTR: ${utr}`;
-  $("sum").textContent=text;
-  $("done").classList.add("on");
-  if(CONFIG.whatsapp){$("wa").style.display="block";$("wa").href=`https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`}
-  $("copy").onclick=async()=>{try{await navigator.clipboard.writeText(text);$("copy").textContent="Copied"}catch(e){$("copy").textContent="Select and copy the text above"}};
+  if(mobile) window.location.href=url;
 };
 $("contact").textContent=CONFIG.contactText;
 renderAll();
